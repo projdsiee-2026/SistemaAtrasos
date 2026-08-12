@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#173f5f">
+  <title>Registro de Atrasos</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js" defer></script>
+  <script src="config.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="topo">
+    <div class="brand">
+      <!-- LOGO: arquivo definido em LOGO_URL no config.js -->
+      <img id="school-logo" class="school-logo hidden" alt="Logo do colégio">
+      <div><p class="instituicao" id="school-name">Escola</p><h1>Registro de atrasos</h1></div>
+    </div>
+    <span class="status-dot" id="connection-status" title="Status da conexão"></span>
+  </header>
+
+  <main class="container">
+    <section id="login-screen" class="card login-card">
+      <h2>Acesso ao sistema</h2>
+      <p>Acesso exclusivo para inspetores responsáveis pelo lançamento de atrasos.</p>
+      <form id="login-form" class="login-form">
+        <label for="login-user">Usuário</label>
+        <input id="login-user" autocomplete="username" required>
+        <label for="login-password">Senha</label>
+        <input id="login-password" type="password" autocomplete="current-password" required>
+        <button id="login-submit" type="submit" class="primary">Entrar</button>
+      </form>
+      <p id="login-error" class="login-error hidden" role="alert"></p>
+    </section>
+
+    <div id="app-content" class="hidden">
+      <section class="user-bar">
+        <span id="logged-user"></span>
+        <button id="logout" type="button" class="logout-button">Sair</button>
+      </section>
+      <section class="card intro">
+        <h2>Leia a carteirinha</h2><p>Aponte a câmera para o QR Code do estudante.</p>
+        <button id="start-camera" class="primary">Abrir câmera</button>
+        <button id="stop-camera" class="secondary hidden">Fechar câmera</button>
+        <div id="reader" class="reader hidden" aria-label="Leitor de QR Code"></div>
+      </section>
+      <section class="card">
+        <details><summary>Digitar matrícula manualmente</summary>
+          <form id="manual-form" class="manual-form">
+            <label for="student-id">Matrícula / ID</label>
+            <div class="input-row"><input id="student-id" name="studentId" autocomplete="off" required><button type="submit" class="secondary">Consultar</button></div>
+          </form>
+        </details>
+      </section>
+      <section id="student-card" class="card hidden" aria-live="polite">
+        <p class="eyebrow">Aluno encontrado</p><h2 id="student-name"></h2>
+        <dl class="student-data">
+          <div><dt>Matrícula</dt><dd id="student-registration"></dd></div><div><dt>Turma</dt><dd id="student-class"></dd></div>
+          <div><dt>Turno</dt><dd id="student-shift"></dd></div><div><dt>Pedagoga</dt><dd id="student-educator"></dd></div>
+        </dl>
+        <form id="record-form">
+          <label for="record-type">Tipo de registro</label>
+          <select id="record-type" required><option value="Atraso">Atraso</option><option value="Entrada autorizada">Entrada autorizada</option><option value="Outro">Outro</option></select>
+          <label for="notes">Observação (opcional)</label><textarea id="notes" rows="3" maxlength="300"></textarea>
+          <button id="save-record" type="submit" class="primary">Registrar atraso</button><button id="cancel-record" type="button" class="text-button">Cancelar</button>
+        </form>
+      </section>
+    </div>
+    <div id="message" class="message hidden" role="status" aria-live="assertive"></div>
+  </main>
+  <footer class="footer"><p id="footer-year"></p><p id="footer-team"></p><p id="footer-teacher"></p><p id="footer-coordination"></p></footer>
+</body>
+</html>
