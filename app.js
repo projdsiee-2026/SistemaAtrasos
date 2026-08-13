@@ -105,11 +105,33 @@ async function stopCamera() {
   elements.reader.classList.add("hidden"); elements.start.classList.remove("hidden"); elements.stop.classList.add("hidden");
 }
 async function lookupStudent(rawId) {
-  const studentId = String(rawId || "").trim(); if (!studentId || scanLocked) return;
-  scanLocked = true; showMessage("Consultando aluno…");
-  try { const result = await api("consultarAluno", { studentId }); currentStudent = result.student; fillStudent(currentStudent); await stopCamera(); showMessage("Aluno encontrado.", "success"); }
-  catch (error) { showMessage(error.message, "error"); }
-  finally { setTimeout(() => { scanLocked = false; }, config.SCAN_PAUSE_MS || 2500); }
+  const qrContent = String(rawId || "").trim();
+  const prefix = "IEE:ALUNO:";
+
+  const studentId = qrContent.toUpperCase().startsWith(prefix)
+    ? qrContent.slice(prefix.length).trim()
+    : qrContent;
+
+  if (!studentId || scanLocked) return;
+
+  scanLocked = true;
+  showMessage("Consultando aluno…");
+
+  try {
+    const result = await api("consultarAluno", { studentId });
+
+    currentStudent = result.student;
+    fillStudent(currentStudent);
+
+    await stopCamera();
+    showMessage("Aluno encontrado.", "success");
+  } catch (error) {
+    showMessage(error.message, "error");
+  } finally {
+    setTimeout(() => {
+      scanLocked = false;
+    }, config.SCAN_PAUSE_MS || 2500);
+  }
 }
 function fillStudent(student) {
   $("#student-name").textContent = student.nome; $("#student-registration").textContent = student.id; $("#student-class").textContent = student.turma;
