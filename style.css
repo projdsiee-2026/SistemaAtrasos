@@ -8,6 +8,7 @@
   --surface: #ffffff;
   --background: #eef3f7;
   --border: #d8e1e8;
+  --school-watermark: none;
 }
 
 * { box-sizing: border-box; }
@@ -17,7 +18,22 @@ body {
   color: var(--ink);
   background: var(--background);
   font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  position: relative;
 }
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: var(--school-watermark);
+  background-repeat: no-repeat;
+  background-position: center 58%;
+  background-size: min(58vw, 520px) auto;
+  opacity: .045;
+  filter: grayscale(1);
+}
+.topo, .container, .footer { position: relative; z-index: 1; }
 .topo {
   display: flex;
   align-items: center;
@@ -27,7 +43,7 @@ body {
   background: linear-gradient(135deg, var(--navy), var(--blue));
 }
 .brand { display: flex; align-items: center; min-width: 0; gap: 14px; }
-.school-logo { width: 64px; height: 64px; flex: 0 0 auto; object-fit: contain; border-radius: 10px; background: #fff; padding: 4px; }
+.school-logo { width: 72px; height: 72px; flex: 0 0 auto; object-fit: contain; border-radius: 12px; background: #fff; padding: 5px; box-shadow: 0 2px 9px #0002; }
 .topo h1 { margin: 4px 0 0; font-size: 1.15rem; font-weight: 600; }
 .instituicao { margin: 0; color: #fff; font-size: clamp(1.05rem, 4vw, 1.45rem); font-weight: 800; line-height: 1.15; opacity: 1; }
 .status-dot { width: 11px; height: 11px; border-radius: 50%; background: #60d394; box-shadow: 0 0 0 4px #ffffff22; }
@@ -68,5 +84,8 @@ summary { color: var(--navy); font-weight: 700; cursor: pointer; }
 .footer { padding: 22px 20px calc(22px + env(safe-area-inset-bottom)); color: #dce8f0; text-align: center; background: var(--navy); }
 .footer p { margin: 4px 0; font-size: .82rem; }
 .footer p:empty { display: none; }
-@media (max-width: 420px) { .school-logo { width: 54px; height: 54px; } }
+@media (max-width: 420px) {
+  .school-logo { width: 56px; height: 56px; }
+  body::before { background-size: 78vw auto; opacity: .04; }
+}
 @media (min-width: 600px) { .topo { padding-inline: max(20px, calc((100vw - 560px) / 2)); } }

@@ -71,7 +71,19 @@ function showLoginError(text) { elements.loginError.textContent = text; elements
 function updateConnectionStatus() { $("#connection-status").classList.toggle("offline", !navigator.onLine); }
 function configureIdentity() {
   const logo = $("#school-logo");
-  if (config.LOGO_URL) { logo.src = config.LOGO_URL; logo.onload = () => logo.classList.remove("hidden"); logo.onerror = () => logo.classList.add("hidden"); }
+  if (config.LOGO_URL) {
+    logo.onload = () => {
+      logo.classList.remove("hidden");
+      document.documentElement.style.setProperty("--school-watermark", `url("${config.LOGO_URL}")`);
+    };
+    logo.onerror = () => {
+      logo.classList.add("hidden");
+      document.documentElement.style.setProperty("--school-watermark", "none");
+      console.error("Logo não encontrada em:", config.LOGO_URL);
+    };
+    logo.src = config.LOGO_URL;
+    if (logo.complete && logo.naturalWidth > 0) logo.onload();
+  }
   $("#footer-year").textContent = config.FOOTER_YEAR ? `© ${config.FOOTER_YEAR}` : "";
   $("#footer-team").textContent = config.FOOTER_TEAM ? `Equipe de desenvolvimento: ${config.FOOTER_TEAM}` : "";
   $("#footer-teacher").textContent = config.FOOTER_TEACHER ? `Professora responsável: ${config.FOOTER_TEACHER}` : "";
