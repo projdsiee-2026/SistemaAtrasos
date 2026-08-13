@@ -1,5 +1,5 @@
 window.APP_CONFIG = {
-  API_URL: "https://script.google.com/macros/s/AKfycbx9fIg0nC1hp39YJCmeQFsLaM53rrhvvyCys7u03dT2JkDkdn9GVu6rYvXNHOqvd6Mshg/exec",
+  API_URL: "https://script.google.com/macros/s/AKfycby2D2uqXO5KiiHSPuYdC4wYkaYvh_1-DZjA5EWQXZGDrPDEn5X7Js8WDRDgu1dBTA7ZiQ/exec",
   SCHOOL_NAME: "Instituto Estadual de Educação Dr. Caetano Munhoz da Rocha",
   
   LOGO_URL: "assets/logo.png",
